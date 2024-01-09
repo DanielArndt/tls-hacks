@@ -1,4 +1,4 @@
-#!/usr/bin/env -S sh -c 'pipenv run python "$0" "$@"'
+#!/usr/bin/env -S PIPENV_IGNORE_VIRTUALENVS=1 sh -c 'cd $(dirname $0) && pipenv run python "$0" "$@"'
 import logging
 import re
 from collections import namedtuple
@@ -70,6 +70,7 @@ def detect_cgroup_v1() -> None:
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
     detect_cgroup_v1()
+    logging.info("Done")
 
 
 if __name__ == "__main__":

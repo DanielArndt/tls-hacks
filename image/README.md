@@ -1,0 +1,3 @@
+```
+packer build template.json
+```
