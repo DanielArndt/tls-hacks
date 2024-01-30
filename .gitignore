@@ -161,3 +161,4 @@ cython_debug/
 
 packer_cache
 packer-qemu
+multipass/vm-share/.zsh_history
