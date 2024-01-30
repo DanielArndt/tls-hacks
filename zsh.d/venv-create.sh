@@ -12,6 +12,13 @@ venv-create() {
     $current_python -m venv .venv
     # shellcheck source=/dev/null
     source .venv/bin/activate
-    pip install -r requirements.txt
-    pip install -r test-requirements.txt
+    if [ -f "requirements.txt" ]; then
+        pip install -r requirements.txt
+    fi
+    if [ -f "test-requirements.txt" ]; then
+        pip install -r test-requirements.txt
+    fi
+    if [ -f "dev-requirements.txt" ]; then
+        pip install -r dev-requirements.txt
+    fi
 }
