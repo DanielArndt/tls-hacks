@@ -7,6 +7,9 @@ import sh
 from .utils import run_cmd
 
 HOME_DIR = Path.home()
+FILE_DIR = Path(__file__).resolve().parent
+MULTIPASS_DIR = FILE_DIR.parent
+VM_SHARE_DIR = MULTIPASS_DIR / "vm-share"
 
 
 class MultipassCtl:
@@ -40,10 +43,25 @@ class MultipassCtl:
     def add_mounts(self):
         if not self.has_mount("/home/ubuntu/canonical"):
             self.mount_canonical()
+        if not self.has_mount("/home/ubuntu/vm-share"):
+            self.mount_vm_share()
 
     def mount_canonical(self):
         run_cmd(
             f"multipass mount {HOME_DIR}/git/canonical {self.instance_name}:/home/ubuntu/canonical"
+        )
+
+    def mount_vm_share(self):
+        run_cmd(
+            f"multipass mount {VM_SHARE_DIR} {self.instance_name}:/home/ubuntu/vm-share"
+        )
+
+    def link_files(self):
+        run_cmd(
+            "multipass exec dev -- 'ln' '-fs' '/home/ubuntu/vm-share/home/.zshrc' '/home/ubuntu/.zshrc'"
+        )
+        run_cmd(
+            "multipass exec dev -- sudo mount --bind -o ro /home/ubuntu/vm-share/home/.zshrc /home/ubuntu/.zshrc"
         )
 
     def transfer_files(self):
