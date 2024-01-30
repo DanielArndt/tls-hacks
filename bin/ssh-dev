@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ssh $(multipass list | grep "^dev\s" | awk '{print $3}')
