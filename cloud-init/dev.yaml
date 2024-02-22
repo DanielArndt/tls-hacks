@@ -1,5 +1,14 @@
 package_update: true
 
+users:
+  - default
+  - name: ubuntu
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    shell: /bin/zsh
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAAAAAB3NzaC1yc2EAAAADAQABAAABgQDi7JX3SL4EcZB2CuweOKgo8z6VbBlJiKJZSzZFOAmZu+rcXKhkESL+SQrd1bF2aZgYTCIhPY5vOZe+gBnZLSHwUqLB+ufzUA5W5+iO+qzsj0oRb4FQb4+SLJfsTMUK3xp2H08PHVYK3Eg30iyNtaOODHpZGGhCTPR0JySKvtZUWpAP1/oN/9C64Fi5G7SNluU5HOfsPwlu/ZKWjHNqnw3zARQykHcFp5aqIIz+skPydBNq06eLeZa0eFyNdPTyrAh6yU+74YWAafFqb5pfgOngigSZ2OXIsoOrtxloqEdnoxEcF3MC4PNXQ9VRbXL5NF2tD9K8CBWlkEgFPf6Za0/L0qUJAvCckusDVFtQ25vTo7JdxETDhtUVxDysBJ6ENahL8NKvNsGkf2cBkuivRW7CVd3k3DRJf3oc/zaKgZuKgPMUUD33faB7mRtW6X8hh+Ha0Y2qCjMP10Ulz/9eWZ4mz4LwXvb8j1hCPXKD8AlqJcYTdRmUe3z7m+lZde1bQ68=
+
 packages:
   - locate
 # Moved to pacman
@@ -15,11 +24,11 @@ packages:
 
 snap:
   commands:
-  - snap install juju --channel=3.3/stable
+  - snap install juju --channel=3.4/stable
   - snap install microk8s --channel 1.28-strict/stable
   - snap alias microk8s.kubectl kubectl
   - snap alias microk8s.kubectl k
-  - snap alias juju jj
+  # - snap alias juju jj
   # Moved to pacman
   # - snap install --classic charmcraft
   # - snap install jhack --channel=latest/stable
@@ -113,7 +122,7 @@ runcmd:
   microk8s config | sudo -u ubuntu tee /home/ubuntu/.kube/config > /dev/null
 
   # # bootstrap lxd
-  # sudo -u ubuntu juju bootstrap localhost lxd
+  sudo -u ubuntu juju bootstrap localhost lxd
 
   # We need to connect the dot-local-share-juju interface with jhack
   sudo snap connect jhack:dot-local-share-juju snapd

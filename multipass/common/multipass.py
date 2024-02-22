@@ -57,9 +57,11 @@ class MultipassCtl:
         )
 
     def link_files(self):
+        # First, link the .zshrc file
         run_cmd(
             "multipass exec dev -- 'ln' '-fs' '/home/ubuntu/vm-share/home/.zshrc' '/home/ubuntu/.zshrc'"
         )
+        # But, we'd rather have a read-only bind mount, so let's chuck that on top.
         run_cmd(
             "multipass exec dev -- sudo mount --bind -o ro /home/ubuntu/vm-share/home/.zshrc /home/ubuntu/.zshrc"
         )

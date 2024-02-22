@@ -1,0 +1,1 @@
+JUJU_DEV_FEATURE_FLAGS=developer-mode juju dump-db

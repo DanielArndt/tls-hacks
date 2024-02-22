@@ -1,5 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+config_dir="$HOME/vm-share/config"
 export HISTFILE=$HOME/vm-share/.zsh_history
 
 # Path to your oh-my-zsh installation.
@@ -100,7 +101,8 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-export PATH=$PATH:$HOME/.local/bin
+export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/vm-share/bin:$PATH
 
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
@@ -143,3 +145,33 @@ fzf-in-pwd() {
 zle -N fzf-in-pwd
 bindkey "^F" fzf-in-pwd
 
+expand-aliases() {
+  unset 'functions[_expand-aliases]'
+  functions[_expand-aliases]=$BUFFER
+  (($+functions[_expand-aliases])) &&
+    BUFFER=${functions[_expand-aliases]#$'\t'} &&
+    CURSOR=$#BUFFER
+}
+
+zle -N expand-aliases
+bindkey "^@" expand-aliases
+
+expand-aliases-and-run() {
+  unset 'functions[_expand-aliases]'
+  functions[_expand-aliases]=$BUFFER
+  (($+functions[_expand-aliases])) &&
+    BUFFER=${functions[_expand-aliases]#$'\t'} &&
+    CURSOR=$#BUFFER
+  zle accept-line
+}
+
+zle -N expand-aliases-and-run
+bindkey '^M' expand-aliases-and-run
+
+# Source all configs
+for file in $(find "${config_dir}/zsh/zsh.d/" -type f | sort)
+do
+    source $file
+done
+
+export TOX_WORK_DIR=".tox/$HOSTNAME"
