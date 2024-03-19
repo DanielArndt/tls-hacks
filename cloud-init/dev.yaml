@@ -11,6 +11,7 @@ users:
 
 packages:
   - locate
+  - pipx
 # Moved to pacman
 # - python3-pip
 # - jq
@@ -27,8 +28,6 @@ snap:
   - snap install juju --channel=3.4/stable
   - snap install microk8s --channel 1.28-strict/stable
   - snap alias microk8s.kubectl kubectl
-  - snap alias microk8s.kubectl k
-  # - snap alias juju jj
   # Moved to pacman
   # - snap install --classic charmcraft
   # - snap install jhack --channel=latest/stable
@@ -39,6 +38,7 @@ snap:
   - snap refresh
 
 runcmd:
+- pipx install tox
 - DEBIAN_FRONTEND=noninteractive apt-get remove -y landscape-client landscape-common adwaita-icon-theme humanity-icon-theme
 - DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
 - DEBIAN_FRONTEND=noninteractive apt-get -y autoremove
