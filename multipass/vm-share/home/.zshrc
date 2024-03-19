@@ -107,71 +107,10 @@ export PATH=$HOME/vm-share/bin:$PATH
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
-git_repo_locations_file="${HOME}/.git_repo_locations"
-
-function fupdb {
-    zle -R "Updating locate database for ${HOME}..."
-    find "${HOME}" -name .git -exec dirname {} \; -prune > "${git_repo_locations_file}"
-}
-
-# Fuzzy search for git repo
-function frepo {
-    # If .locatedb doesn't exist, print a message and abort
-    if [ ! -f "${git_repo_locations_file}" ]; then
-        fupdb
-    fi
-
-    REPO_NAME=$(fzf < "${git_repo_locations_file}")
-    if [ "$REPO_NAME" ]; then
-        cd "$REPO_NAME" || echo "Repo no longer exists... update locate database again (\`fupdb\`)"
-    fi
-    zle reset-prompt
-}
-
-# Define a widget called "frepo", mapped to our function above.
-zle -N frepo
-
-# Bind it to ESC-i.
-bindkey "^[g" frepo
-
-fzf-in-pwd() {
-    ls_output=$("ls" -A)
-    non_hidden_files=$(echo "$ls_output" | grep -v "^\.")
-    hidden_files=$(echo "$ls_output" | grep "^\.")
-    file_name=$( (echo "${non_hidden_files}" && echo ${hidden_files}) | fzf --multi --preview 'tree-or-bat {}' --bind 'tab:toggle+up,btab:toggle+down' | tr '\n' ' ')
-    BUFFER+="$file_name"
-    CURSOR=$((CURSOR + ${#file_name}))
-}
-zle -N fzf-in-pwd
-bindkey "^F" fzf-in-pwd
-
-expand-aliases() {
-  unset 'functions[_expand-aliases]'
-  functions[_expand-aliases]=$BUFFER
-  (($+functions[_expand-aliases])) &&
-    BUFFER=${functions[_expand-aliases]#$'\t'} &&
-    CURSOR=$#BUFFER
-}
-
-zle -N expand-aliases
-bindkey "^@" expand-aliases
-
-expand-aliases-and-run() {
-  unset 'functions[_expand-aliases]'
-  functions[_expand-aliases]=$BUFFER
-  (($+functions[_expand-aliases])) &&
-    BUFFER=${functions[_expand-aliases]#$'\t'} &&
-    CURSOR=$#BUFFER
-  zle accept-line
-}
-
-zle -N expand-aliases-and-run
-bindkey '^M' expand-aliases-and-run
-
 # Source all configs
 for file in $(find "${config_dir}/zsh/zsh.d/" -type f | sort)
 do
     source $file
 done
 
-export TOX_WORK_DIR=".tox/$HOSTNAME"
+export TOX_WORK_DIR=".tox/$(hostname)"
