@@ -56,8 +56,8 @@ def main() -> None:
         checkpoint("multipass instance launched")
     # These should all be idempotent, so no problem running them again and again.
     multipass_instance.add_mounts()
-    multipass_instance.transfer_files()
     multipass_instance.link_files()
+    multipass_instance.transfer_files()
     multipass_instance.add_ssh_key()
     checkpoint("finished", since_first=True)
 

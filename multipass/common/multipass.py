@@ -11,6 +11,13 @@ FILE_DIR = Path(__file__).resolve().parent
 MULTIPASS_DIR = FILE_DIR.parent
 VM_SHARE_DIR = MULTIPASS_DIR / "vm-share"
 
+ROOT_UID = 0
+ROOT_GID = 0
+LOCAL_USER_UID = 1000
+LOCAL_USER_GID = 1000
+MP_USER_UID = 1001
+MP_USER_GID = 1001
+
 
 class MultipassCtl:
     def __init__(self, instance_name) -> None:
@@ -29,8 +36,7 @@ class MultipassCtl:
             --memory 8G \
             --cpus 4 \
             --disk 80G \
-            --mount {HOME_DIR}/git/canonical/:/home/ubuntu/canonical/ \
-            --timeout 1200 \
+            --timeout 6000 \
             --name {self.instance_name} \
             file://{HOME_DIR}/git/canonical/tls/tls-hacks/image/output-qemu/packer-qemu
         """
@@ -42,9 +48,9 @@ class MultipassCtl:
 
     def add_mounts(self):
         if not self.has_mount("/home/ubuntu/canonical"):
-            self.mount_canonical()
+            self.mount(f"{HOME_DIR}/git/canonical", "/home/ubuntu/canonical")
         if not self.has_mount("/home/ubuntu/vm-share"):
-            self.mount_vm_share()
+            self.mount(f"{VM_SHARE_DIR}", "/home/ubuntu/vm-share")
 
     def mount_canonical(self):
         run_cmd(
@@ -55,6 +61,15 @@ class MultipassCtl:
         run_cmd(
             f"multipass mount {VM_SHARE_DIR} {self.instance_name}:/home/ubuntu/vm-share"
         )
+
+    def mount(self, source, destination):
+        mount_mappings = [
+            # f"-u {ROOT_UID}:{ROOT_UID}",
+            # f"-g {ROOT_GID}:{ROOT_GID}",
+            f"-u {LOCAL_USER_UID}:{MP_USER_UID}",
+            f"-g {LOCAL_USER_GID}:{MP_USER_GID}",
+        ]
+        run_cmd(f"multipass mount --type native {" ".join(mount_mappings)} {source} {self.instance_name}:{destination}")
 
     def link_files(self):
         # First, link the .zshrc file
