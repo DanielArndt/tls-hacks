@@ -1,1 +1,0 @@
-juju status --format=yaml | yq '.applications.'"$1"'.units | select(.*.leader == true) | .*.public-address'

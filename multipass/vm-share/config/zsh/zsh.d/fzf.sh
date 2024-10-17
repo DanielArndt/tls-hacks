@@ -1,10 +1,9 @@
 # shellcheck shell=bash
-
 git_repo_locations_file="${HOME}/.git_repo_locations"
 
 function fupdb {
-    zle -R "Updating locate database for ${HOME}..."
-    find "${HOME}" -name .git -exec dirname {} \; -prune > "${git_repo_locations_file}"
+    zle -R "Updating git repo database for \`${HOME}\`. This may take a while..."
+    find "${HOME}" -name .git -exec dirname {} \; -prune | tee "${git_repo_locations_file}"
 }
 
 # Fuzzy search for git repo

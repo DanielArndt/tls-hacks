@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Split input on /
+IFS='/' read -r -a array <<< "$1"
+app_name="${array[0]}"
+unit="${array[1]}"
+# If the unit is empty, then set it to leader
+if [ -z "${unit}" ]; then
+    unit="leader"
+fi
+
+
+# juju status --format=yaml "${app_name}/${unit}" | yq ".applications.${app_name}.units.*.public-address"
+
+juju status --format=yaml "${app_name}/${unit}" | yq ".applications.${app_name}.units[] | (.address, .public-address) | select(.)"

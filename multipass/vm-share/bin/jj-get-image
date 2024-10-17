@@ -1,0 +1,1 @@
+yq ".resources.*.upstream-source" < "./charmcraft.yaml" | head -n1

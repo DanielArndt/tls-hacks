@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 config_dir="$HOME/vm-share/config"
 export HISTFILE=$HOME/vm-share/.zsh_history
 
@@ -11,12 +11,6 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="juju"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -105,7 +99,7 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/vm-share/bin:$PATH
 
 # Generated for envman. Do not edit.
-[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+#[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
 # Source all configs
 for file in $(find "${config_dir}/zsh/zsh.d/" -type f | sort)
@@ -114,3 +108,10 @@ do
 done
 
 export TOX_WORK_DIR=".tox/$(hostname)"
+
+#eval "$(direnv hook zsh)"
+#function chpwd() {
+#   if [ -r $PWD/.zsh_config ]; then
+#     source $PWD/.zsh_config
+#   fi
+# }
