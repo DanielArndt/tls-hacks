@@ -7,8 +7,8 @@
       "disk_size": "5120M",
       "memory": 1024,
       "http_directory": "cloud-data",
-      "iso_checksum": "file:http://cloud-images.ubuntu.com/releases/mantic/release/SHA256SUMS",
-      "iso_url": "http://cloud-images.ubuntu.com/releases/mantic/release/ubuntu-23.10-server-cloudimg-amd64.img",
+      "iso_checksum": "file:http://cloud-images.ubuntu.com/releases/24.04/release/SHA256SUMS",
+      "iso_url": "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-amd64.img",
       "qemuargs": [
         [
           "-smbios",
