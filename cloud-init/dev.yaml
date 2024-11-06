@@ -28,13 +28,6 @@ snap:
   - snap install juju --channel=3.4/stable
   - snap install microk8s --channel 1.28-strict/stable
   - snap alias microk8s.kubectl kubectl
-  # Moved to pacman
-  # - snap install --classic charmcraft
-  # - snap install jhack --channel=latest/stable
-  # - snap install yq
-  # - snap install multipass-sshfs
-  # - snap install btop
-  # - snap install --classic ripgrep
   - snap refresh
 
 runcmd:
