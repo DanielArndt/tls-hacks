@@ -87,7 +87,7 @@ class MultipassCtl:
         )
 
     def add_ssh_key(self):
-        pubkey = sh.cat(f"{HOME_DIR}/.ssh/id_rsa.pub").rstrip()
+        pubkey = sh.cat(f"{HOME_DIR}/.ssh/id_ed25519.pub").rstrip()
         if not self.is_pubkey_in_authorized_keys(pubkey):
             logging.info("Pubkey not found in authorized_keys, adding it")
             run_cmd(
