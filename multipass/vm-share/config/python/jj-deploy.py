@@ -23,6 +23,7 @@ def get_resource_image_location():
 
 def get_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--name", help="The name of the charm to deploy", type=str, default="")
     parser.add_argument("-n", help="The number of units to deploy", type=int, default=1)
     return parser.parse_args()
 
@@ -33,7 +34,7 @@ def main():
     resource_locations = get_resource_image_location()
 
     resource_args = [f"--resource {k}={v}" for k, v in resource_locations.items()]
-    run_cmd(f"juju deploy ./{charm_path} {' '.join(resource_args)} -n {args.n}")
+    run_cmd(f"juju deploy ./{charm_path} {args.name} {' '.join(resource_args)} -n {args.n}")
 
 
 if __name__ == "__main__":

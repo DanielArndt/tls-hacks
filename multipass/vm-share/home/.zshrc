@@ -101,7 +101,7 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/vm-share/bin:$PATH
 
 # Generated for envman. Do not edit.
-#[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
 # Source all configs
 for file in $(find "${config_dir}/zsh/zsh.d/" -type f | sort)

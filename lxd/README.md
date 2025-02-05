@@ -28,14 +28,18 @@ snap install microk8s --channel 1.31-strict/stable
 snap install vault
 ```
 
+Bootstrap Juju
+
 ```bash
 microk8s.enable hostpath-storage
+juju bootstrap lxd lxd
 juju bootstrap microk8s k8s
 ```
 
 ```bash
 apt install pipx
 pipx install tox
+pipx inject tox tox-uv
 pipx install pipenv
 pipx install pipenv-shebang
 ```
@@ -46,4 +50,16 @@ sudo apt update
 sudo apt install build-essential libssl-dev zlib1g-dev \
     libbz2-dev libreadline-dev libsqlite3-dev curl git \
     libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+```
+
+```bash
+curl -sS https://webinstall.dev/k9s | bash
+mkdir -p $HOME/.kube
+microk8s config > $HOME/.kube/config
+```
+
+```bash
+echo "net.ipv6.conf.all.disable_ipv6=1" | tee -a /etc/sysctl.conf
+echo "net.ipv6.conf.default.disable_ipv6=1" | tee -a /etc/sysctl.conf
+echo "net.ipv6.conf.lo.disable_ipv6=1" | tee -a /etc/sysctl.conf
 ```

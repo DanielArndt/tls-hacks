@@ -126,7 +126,6 @@ runcmd:
   # microk8s.enable multus
 
 - |
-  sudo updatedb
   sudo -u ubuntu mkdir -p /home/ubuntu/.local/bin && ln -s /bin/batcat /home/ubuntu/.local/bin/bat
 
 - |

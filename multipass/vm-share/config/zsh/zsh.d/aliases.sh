@@ -22,3 +22,5 @@ expand-aliases-and-run() {
 
 zle -N expand-aliases-and-run
 bindkey '^M' expand-aliases-and-run
+
+unalias grep
